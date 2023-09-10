@@ -11,3 +11,9 @@
 - `MemberRole` 是一个枚举类型，定义了成员的角色，包括管理员（ADMIN）、版主（MODERATOR）和访客（GUEST）。
 
 - `ChannelType` 是一个枚举类型，定义了频道的类型，包括文本（TEXT）、音频（AUDIO）和视频（VIDEO）。
+
+使用`npx prisma db pull`将模型推送给数据库服务器
+
+使用`npx prisma generate`生成查询客户端
+
+使用`npx prisma studio`打开数据预览页面
