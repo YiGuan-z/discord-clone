@@ -1,7 +1,11 @@
 import { currentUser,redirectToSignIn } from "@clerk/nextjs";
 
 import { db } from "@/lib/db";
-
+/**
+ * get an userProfile.
+ * if the user is not logged in, retrieve the user's profile and navigate to the Sign In view.
+ * @returns userProfile
+ */
 export const initialProfile = async () =>{
     const user = await currentUser()
 
