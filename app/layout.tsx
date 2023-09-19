@@ -1,10 +1,12 @@
 import './globals.css'
 import type {Metadata} from 'next'
-import {cn} from '@/lib/utils'
 import {Inter, Open_Sans} from 'next/font/google'
-import {ClerkProvider} from '@clerk/nextjs'
-import {ThemeProvider} from '@/components/providers/theme-provider'
 import {Analytics} from "@vercel/analytics/react"
+import {ClerkProvider} from '@clerk/nextjs'
+
+import {cn} from '@/lib/utils'
+import {ThemeProvider} from '@/components/providers/theme-provider'
+import {ModalProvider} from "@/components/providers/modal-provider";
 
 const font = Open_Sans({subsets: ['latin']})
 
@@ -32,6 +34,7 @@ export default function RootLayout({
                 enableSystem={true}
                 storageKey='discord-theme'
             >
+                <ModalProvider/>
                 {children}
             </ThemeProvider>
             <Analytics/>
