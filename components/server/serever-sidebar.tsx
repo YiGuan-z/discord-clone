@@ -56,8 +56,6 @@ const ServerSidebar = async ({serverId}: ServerSidebarProps) => {
 
     return (
         <div className="flex flex-col h-full text-primary w-full dark:bg-[#2B2D31] bg-white">
-            Server Sidebar Component by:
-            {serverId}
             <ServerHeader
                 server={server}
                 role={role}

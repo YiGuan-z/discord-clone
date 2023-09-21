@@ -13,6 +13,7 @@ import {
 import {ServerWithMemberWithProfiles} from "@/types";
 import {cn, TODO} from "@/lib/utils";
 import {useModal} from "@/hooks/use-modal-store";
+import {useAlert} from "@/hooks/use-alert";
 
 interface ServerHeaderProps {
     server: ServerWithMemberWithProfiles
@@ -21,12 +22,12 @@ interface ServerHeaderProps {
 
 export const ServerHeader = ({server, role}: ServerHeaderProps) => {
     const {onOpen} = useModal()
+    const alert = useAlert()
     const isAdmin = role === MemberRole.ADMIN;
     const isModerator = isAdmin || role === MemberRole.MODERATOR
 
     return (
         <div>
-            Server Header
             <DropdownMenu>
                 <DropdownMenuTrigger className="focus:outline-none" asChild>
                     <button className={cn(
@@ -39,74 +40,90 @@ export const ServerHeader = ({server, role}: ServerHeaderProps) => {
                     </button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent
-                className="w-56 text-xs font-medium text-black dark:text-neutral-400 space-y-[2px]"
+                    className="w-56 text-xs font-medium text-black dark:text-neutral-400 space-y-[2px]"
                 >
-                    {isModerator &&(
+                    {isModerator && (
                         <DropdownMenuItem
                             className={cn(
                                 "text-indigo-600 dark:text-indigo-400 px-3 py-2 text-sm cursor-pointer"
                             )}
-                            onClick={()=>{onOpen("invite",{server})}}
+                            onClick={() => {
+                                onOpen("invite", {server})
+                            }}
                         >
                             Invite People
                             <UserPlus className="h-4 w-4 ml-auto"/>
                         </DropdownMenuItem>
                     )}
 
-                    {isAdmin &&(
+                    {isAdmin && (
                         <DropdownMenuItem
                             className="px-3 py-2 text-sm cursor-pointer"
-                            onClick={()=>{TODO("Server setting")}}
+                            onClick={() => {
+                                onOpen("editServer", {server})
+                            }}
                         >
                             Server setting
                             <Settings className="h-4 w-4 ml-auto"/>
                         </DropdownMenuItem>
                     )}
 
-                    {isAdmin &&(
+                    {isAdmin && (
                         <DropdownMenuItem
                             className="px-3 py-2 text-sm cursor-pointer"
-                            onClick={()=>{TODO("Manage members")}}
+                            onClick={() => {
+                                alert.onOpen({
+                                    title:"Manage members",
+                                    message:"TODO!!!",
+                                    okButtonText:"OK",
+                                    cancelButtonText:"Cancel"
+                                })
+                            }}
                         >
                             Manage members
                             <Users className="h-4 w-4 ml-auto"/>
                         </DropdownMenuItem>
                     )}
 
-                    {isModerator &&(
+                    {isModerator && (
                         <DropdownMenuItem
                             className="px-3 py-2 text-sm cursor-pointer"
-                            onClick={()=>{TODO("Create Channel")}}
+                            onClick={() => {
+                                TODO("Create Channel")
+                            }}
                         >
                             Create Channel
                             <PlusCircle className="h-4 w-4 ml-auto"/>
                         </DropdownMenuItem>
                     )}
 
-                    {isModerator &&(
+                    {isModerator && (
                         <DropdownMenuSeparator/>
                     )}
 
-                    {isAdmin &&(
+                    {isAdmin && (
                         <DropdownMenuItem
                             className="px-3 py-2 text-sm cursor-pointer text-rose-700"
-                            onClick={()=>{TODO("Delete Server")}}
+                            onClick={() => {
+                                TODO("Delete Server")
+                            }}
                         >
                             Delete Server
                             <Trash className="h-4 w-4 ml-auto"/>
                         </DropdownMenuItem>
                     )}
 
-                    {!isAdmin &&(
+                    {!isAdmin && (
                         <DropdownMenuItem
                             className="px-3 py-2 text-sm cursor-pointer text-rose-700"
-                            onClick={()=>{TODO("Leave Server")}}
+                            onClick={() => {
+                                TODO("Leave Server")
+                            }}
                         >
                             Leave Server
                             <LogOut className="h-4 w-4 ml-auto"/>
                         </DropdownMenuItem>
                     )}
-
 
 
                 </DropdownMenuContent>
