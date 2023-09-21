@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import {ServerWithMemberWithProfiles} from "@/types";
 import {cn, TODO} from "@/lib/utils";
+import {useModal} from "@/hooks/use-modal-store";
 
 interface ServerHeaderProps {
     server: ServerWithMemberWithProfiles
@@ -19,6 +20,7 @@ interface ServerHeaderProps {
 }
 
 export const ServerHeader = ({server, role}: ServerHeaderProps) => {
+    const {onOpen} = useModal()
     const isAdmin = role === MemberRole.ADMIN;
     const isModerator = isAdmin || role === MemberRole.MODERATOR
 
@@ -44,7 +46,7 @@ export const ServerHeader = ({server, role}: ServerHeaderProps) => {
                             className={cn(
                                 "text-indigo-600 dark:text-indigo-400 px-3 py-2 text-sm cursor-pointer"
                             )}
-                            onClick={()=>{TODO("Invite people")}}
+                            onClick={()=>{onOpen("invite",{server})}}
                         >
                             Invite People
                             <UserPlus className="h-4 w-4 ml-auto"/>

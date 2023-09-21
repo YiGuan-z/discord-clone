@@ -21,7 +21,7 @@ export const ourFileRouter = {
         .onUploadComplete(() => {
         }),
     //聊天内容
-    messageFile: f(["image", "pdf","video","audio"])
+    messageFile: f(["image", "pdf", "video", "audio"])
         .middleware(() => handleAuth())
         .onUploadComplete(() => {
         }),
