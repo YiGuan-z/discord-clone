@@ -1,7 +1,7 @@
 import {create} from "zustand"
 import {Server} from "@prisma/client";
 
-export type ModalType = "createServer" | "editServer" | "createChannel" | "invite"
+export type ModalType = "createServer" | "editServer" | "invite" | "members" | "createChannel"
 
 interface ModalData {
     server?: Server

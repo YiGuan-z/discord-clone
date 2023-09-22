@@ -22,7 +22,6 @@ interface ServerHeaderProps {
 
 export const ServerHeader = ({server, role}: ServerHeaderProps) => {
     const {onOpen} = useModal()
-    const alert = useAlert()
     const isAdmin = role === MemberRole.ADMIN;
     const isModerator = isAdmin || role === MemberRole.MODERATOR
 
@@ -72,12 +71,7 @@ export const ServerHeader = ({server, role}: ServerHeaderProps) => {
                         <DropdownMenuItem
                             className="px-3 py-2 text-sm cursor-pointer"
                             onClick={() => {
-                                alert.onOpen({
-                                    title:"Manage members",
-                                    message:"TODO!!!",
-                                    okButtonText:"OK",
-                                    cancelButtonText:"Cancel"
-                                })
+                                onOpen("members",{server})
                             }}
                         >
                             Manage members
