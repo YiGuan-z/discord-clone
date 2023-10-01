@@ -14,7 +14,7 @@ import {Input} from "@/components/ui/input";
 import {Button} from "@/components/ui/button";
 import {Check, Copy, RefreshCw} from "lucide-react";
 import {useOrigin} from "@/hooks/use-origin";
-import {useState} from "react";
+import {useCallback, useState} from "react";
 
 
 export const InviteModal = () => {
@@ -29,65 +29,66 @@ export const InviteModal = () => {
 
     const inviteUrl = `${origin}/invite/${server?.inviteCode}`
 
-    const onCopy = () => {
+    const onCopy = useCallback(() => {
         navigator.clipboard.writeText(inviteUrl)
         setCopied(true)
 
         setTimeout(() => {
             setCopied(false)
         }, 1000)
-    }
+    }, []);
 
-    const onNew = async () => {
+
+    const onNew = useCallback(async () => {
         try {
             setIsLoading(true)
             const response = await fetch(`/api/servers/${server?.id}/invite-code`, {
                 method: "PATCH"
             })
             const resServer = await response.json()
-            onOpen("invite",{server:resServer})
+            onOpen("invite", {server: resServer})
         } catch (e) {
             console.error(e)
         } finally {
             setIsLoading(false)
         }
-    }
-
+    }, []);
 
     return (
-        <Dialog open={isModalOpen} onOpenChange={onClose}>
-            <DialogContent className="bg-[#f5f6f4] text-black p-0 overflow-hidden">
-                <DialogHeader className="pt-8 px-6">
-                    <DialogTitle className="text-2xl text-center font-bold">
-                        Invite Friends
-                    </DialogTitle>
-                </DialogHeader>
-                <div className="p-6">
-                    <Label className="uppercase text-xs font-bold text-zinc-500 dark:text-secondary/70">
-                        Server invite link
-                    </Label>
-                    <div className="flex items-center mt-2 gap-x-2">
-                        <Input
-                            disabled={isLoading}
-                            className="bg-zinc-300/50 border-0 focus-visible:right-0 text-black focus-visible:ring-offset-0"
-                            value={inviteUrl}
-                            onChange={()=>{}}
-                        />
-                        <Button disabled={isLoading} size="icon" onClick={onCopy}>
-                            {copied ? <Check className="w-4 h-4"/> : <Copy className="w-4 h-4"/>}
+            <Dialog open={isModalOpen} onOpenChange={onClose}>
+                <DialogContent className="bg-[#f5f6f4] text-black p-0 overflow-hidden">
+                    <DialogHeader className="pt-8 px-6">
+                        <DialogTitle className="text-2xl text-center font-bold">
+                            Invite Friends
+                        </DialogTitle>
+                    </DialogHeader>
+                    <div className="p-6">
+                        <Label className="uppercase text-xs font-bold text-zinc-500 dark:text-secondary/70">
+                            Server invite link
+                        </Label>
+                        <div className="flex items-center mt-2 gap-x-2">
+                            <Input
+                                    disabled={isLoading}
+                                    className="bg-zinc-300/50 border-0 focus-visible:right-0 text-black focus-visible:ring-offset-0"
+                                    value={inviteUrl}
+                                    onChange={() => {
+                                    }}
+                            />
+                            <Button disabled={isLoading} size="icon" onClick={onCopy}>
+                                {copied ? <Check className="w-4 h-4"/> : <Copy className="w-4 h-4"/>}
+                            </Button>
+                        </div>
+                        <Button variant="link" size="sm"
+                                className="text-xs text-zinc-500 mt-4"
+                                disabled={isLoading}
+                                onClick={onNew}
+                        >
+                            Generate new Invite Link
+                            <RefreshCw className="w-4 h-4 ml-2"/>
                         </Button>
+                        {/*Invite your friends to join your server by sharing the link below.*/}
                     </div>
-                    <Button variant="link" size="sm"
-                            className="text-xs text-zinc-500 mt-4"
-                            disabled={isLoading}
-                            onClick={onNew}
-                    >
-                        Generate new Invite Link
-                        <RefreshCw className="w-4 h-4 ml-2"/>
-                    </Button>
-                    {/*Invite your friends to join your server by sharing the link below.*/}
-                </div>
-            </DialogContent>
-        </Dialog>
+                </DialogContent>
+            </Dialog>
     )
 }

@@ -29,7 +29,7 @@ import {Button} from "@/components/ui/button";
 
 import {FileUpload} from "@/components/file-upload";
 import {useModal} from "@/hooks/use-modal-store";
-import {useEffect} from "react";
+import {useCallback, useEffect} from "react";
 
 
 const formSchema = z.object({
@@ -67,7 +67,7 @@ export const EditServerModal = () => {
 
     const isLoading = form.formState.isSubmitted
 
-    const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    const onSubmit = useCallback(async (values: z.infer<typeof formSchema>) => {
         try {
             await fetch(`/api/servers/${server?.id}`, {
                 method: "PATCH",
@@ -80,12 +80,12 @@ export const EditServerModal = () => {
         } catch (e) {
             console.error(e)
         }
-    }
+    }, []);
 
-    const handleClose = () =>{
+    const handleClose = useCallback(() => {
         form.reset()
         onClose()
-    }
+    }, []);
 
     return (
         <Dialog open={isModalOpen} onOpenChange={handleClose}>

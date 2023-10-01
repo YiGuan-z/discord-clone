@@ -4,7 +4,7 @@ import * as z from "zod"
 import {zodResolver} from "@hookform/resolvers/zod"
 import {useForm} from "react-hook-form"
 import {useRouter} from "next/navigation"
-import {useEffect, useState} from "react"
+import {useCallback, useEffect, useState} from "react"
 
 import {
     Dialog,
@@ -59,7 +59,7 @@ export const InitialModel = () => {
 
     const isLoading = form.formState.isSubmitted
 
-    const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    const onSubmit = useCallback(async (values:z.infer<typeof formSchema>) => {
         try {
             await fetch("/api/servers",{
                 method:"POST",
@@ -72,7 +72,7 @@ export const InitialModel = () => {
         }catch (e) {
             console.error(e)
         }
-    }
+    }, [form, router]);
 
     if (!isMounted) {
         return null
